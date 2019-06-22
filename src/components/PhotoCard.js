@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, View, Image, Button, Linking } from "react-native";
+import { Actions } from "react-native-router-flux";
 
 import CardHeader from "./CardHeader";
 
@@ -11,7 +12,12 @@ const PhotoCard = props => {
     <View style={[wrapperStyle, colorStyle()]}>
       <CardHeader label={label} published={published} />
       <View style={contentStyle}>
-        <Text style={headlineStyle}>{headline}</Text>
+        <Text
+          style={headlineStyle}
+          onPress={() => Actions.pictures({ data: props.data })}
+        >
+          {headline}
+        </Text>
         <Image
           source={{
             uri: tease

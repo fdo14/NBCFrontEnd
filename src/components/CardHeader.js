@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, Image, Button, Linking } from "react-native";
+import { Text, View } from "react-native";
 
 renderDate = date => {
   var seconds = Math.floor((new Date() - date) / 1000);
@@ -30,7 +30,7 @@ renderDate = date => {
 
 const CardHeader = props => {
   const { headerStyle } = styles;
-  published = new Date(props.published).getTime() / 1000;
+  let published = new Date(props.published).getTime() / 1000;
   return (
     <View style={headerStyle}>
       <Text style={{ marginRight: 5, fontSize: 10 }}>{props.label}</Text>

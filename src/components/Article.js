@@ -4,7 +4,7 @@ import { Text, View, Image, Button, Linking } from "react-native";
 import CardHeader from "./CardHeader";
 
 const Article = props => {
-  const { headline, tease, summary, url, label, type } = props.data;
+  const { headline, tease, summary, url, label, type, published } = props.data;
   const {
     headLineStyle,
     imageStyle,
@@ -25,9 +25,11 @@ const Article = props => {
           }}
           style={imageStyle}
         />
-        <Text style={urlStyle} onPress={() => Linking.openURL(url)}>
-          nbcnews.com
-        </Text>
+        <View style={urlStyle}>
+          <Text style={styles.textStyle} onPress={() => Linking.openURL(url)}>
+            nbcnews.com
+          </Text>
+        </View>
       </View>
       <Text style={summaryStyle}>{summary}</Text>
     </View>
@@ -58,11 +60,14 @@ const styles = {
   urlStyle: {
     backgroundColor: "rgba(0,0,0,0.99)",
     width: "100%",
-    height: 25,
-    color: "white",
+    height: 35,
     opacity: 0.7,
     positon: "absolute",
-    top: -35,
+    top: -45,
+    justifyContent: "center"
+  },
+  textStyle: {
+    color: "white",
     fontSize: 15,
     paddingLeft: 20
   },

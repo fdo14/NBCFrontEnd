@@ -2,6 +2,7 @@ import React from "react";
 import { Scene, Router } from "react-native-router-flux";
 import App from "./components/App";
 import Article from "./components/Article";
+import Pictures from "./components/Pictures";
 
 const RouterComponent = () => {
   return (
@@ -15,6 +16,7 @@ const RouterComponent = () => {
           titleStyle={styles.navigationBarTitleStyle}
         />
         <Scene key="article" component={Article} />
+        <Scene key="pictures" component={Pictures} />
       </Scene>
     </Router>
   );

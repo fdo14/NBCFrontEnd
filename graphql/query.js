@@ -11,6 +11,12 @@ export const FETCH_NEWS_QUERY = `
           preview
           label
           id
+          images {
+            url
+            headline
+            id
+            caption
+          }
       }
     }
   }

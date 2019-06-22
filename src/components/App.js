@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, ScrollView } from "react-native";
+import { ScrollView, RefreshControl } from "react-native";
 import { connect } from "react-redux";
 
 import { fetchNews } from "../../actions";
@@ -8,6 +8,20 @@ import VideoCard from "./VideoCard";
 import PhotoCard from "./PhotoCard";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      refreshing: false
+    };
+  }
+
+  _onRefresh = () => {
+    this.setState({ refreshing: true });
+    this.props.fetchNews().then(() => {
+      this.setState({ refreshing: false });
+    });
+  };
+
   componentDidMount() {
     this.props.fetchNews();
   }
@@ -21,11 +35,11 @@ class App extends Component {
         }
 
         if (news.type === "video") {
-          arr.push(<VideoCard data={news} />);
+          arr.push(<VideoCard data={news} key={news.id} />);
         }
 
         if (news.type === "slideshow") {
-          arr.push(<PhotoCard data={news} />);
+          arr.push(<PhotoCard data={news} key={news.id} />);
         }
       }
     }
@@ -33,7 +47,18 @@ class App extends Component {
   };
 
   render() {
-    return <ScrollView>{this.renderNews()}</ScrollView>;
+    return (
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh}
+          />
+        }
+      >
+        {this.renderNews()}
+      </ScrollView>
+    );
   }
 }
 
