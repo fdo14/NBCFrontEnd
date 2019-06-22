@@ -4,6 +4,7 @@ import App from "./components/App";
 import Article from "./components/Article";
 import Pictures from "./components/Pictures";
 
+//Create a router component to control user navigation
 const RouterComponent = () => {
   return (
     <Router>
@@ -15,8 +16,11 @@ const RouterComponent = () => {
           title="NBC's News For You"
           titleStyle={styles.navigationBarTitleStyle}
         />
+        {/* Create our initial route to the home page */}
         <Scene key="article" component={Article} />
+        {/* This will be the scene we route to when a user clicks on an article headline */}
         <Scene key="pictures" component={Pictures} />
+        {/* This will be the scene we route to when a user clicks on a slideshow headline */}
       </Scene>
     </Router>
   );
@@ -24,7 +28,7 @@ const RouterComponent = () => {
 
 const styles = {
   navigationBarTitleStyle: {
-    // centering for Android
+    // Centering for Android
     flex: 1,
     textAlign: "center"
   }

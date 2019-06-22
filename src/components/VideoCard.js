@@ -2,6 +2,7 @@ import React from "react";
 import { Text, View, Image, Button, Linking } from "react-native";
 
 import CardHeader from "./CardHeader";
+import colorStyle from "../utils/colorStyle";
 
 const VideoCard = props => {
   const {
@@ -10,12 +11,13 @@ const VideoCard = props => {
     wrapperStyle,
     thumbnailStyle,
     playArrowStyle
-  } = styles;
-  let { label, url, headline, tease, published, preview } = props.data;
+  } = styles; //Destructure the styles from the styles const below
+  let { label, url, headline, tease, published } = props.data; //Destructure the necessary elements from news data
 
   return (
     <View style={[wrapperStyle, colorStyle()]}>
       <CardHeader label={label} published={published} />
+      {/* Call in the Card Header Component */}
       <View style={contentStyle}>
         <Text style={headlineStyle}>{headline}</Text>
         <Image
@@ -25,43 +27,31 @@ const VideoCard = props => {
           style={thumbnailStyle}
           resizeMode={"contain"}
         />
-
+        {/* Create the teaser image */}
         <Text style={playArrowStyle} onPress={() => Linking.openURL(url)}>
           &#10095;
+          {/* This is a play arrow that we will overlay on top of the image to show it's a video*/}
         </Text>
       </View>
     </View>
   );
 };
 
-colorStyle = function() {
-  let colors = [
-    "#FCB711",
-    "#F37021",
-    "#CC004C",
-    "#6460AA",
-    "#0089D0",
-    "#0DB14B"
-  ];
-  let color = colors[Math.floor(Math.random() * 6)];
-  return {
-    borderTopColor: color,
-    borderTopWidth: 10
-  };
-};
-
 const styles = {
-  thumbnailStyle: {
-    height: 250,
-    width: "100%",
-    borderRadius: 10
-  },
+  //Styling for wrapper that holds everything
   wrapperStyle: {
     backgroundColor: "white",
     marginLeft: 2,
     marginRight: 2,
     paddingBottom: 10
   },
+
+  //Styling for the flexbox holding the headline and picture
+  contentStyle: {
+    flexDirection: "column"
+  },
+
+  //Styling for the headline of the video
   headlineStyle: {
     paddingLeft: 5,
     flexWrap: "wrap",
@@ -69,9 +59,15 @@ const styles = {
     fontSize: 18,
     fontFamily: "Roboto"
   },
-  contentStyle: {
-    flexDirection: "column"
+
+  //Styling for the teaser pic
+  thumbnailStyle: {
+    height: 250,
+    width: "100%",
+    borderRadius: 10
   },
+
+  //Styling for the arrow that is overlayed on top of the image
   playArrowStyle: {
     fontSize: 25,
     backgroundColor: "red",
