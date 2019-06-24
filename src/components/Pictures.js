@@ -5,7 +5,6 @@ import { Dimensions } from "react-native";
 import AutoHeightImage from "react-native-auto-height-image";
 
 import CardHeader from "./CardHeader";
-import IndividualPhoto from "./IndividualPhoto";
 
 class Pictures extends Component {
   constructor(props) {
