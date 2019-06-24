@@ -9,7 +9,6 @@ import CardHeader from "./CardHeader";
 const ArticleCard = props => {
   const { thumbnailStyle, contentStyle, headlineStyle, wrapperStyle } = styles; //Destructure the style from the style const below
   let { label, headline, tease, published } = props.data; //Destructure the necessary items from our news data
-
   return (
     <View style={[wrapperStyle, colorStyle()]}>
       <CardHeader label={label} published={published} />
