@@ -1,12 +1,17 @@
 import React, { Component } from "react";
 import { Text, ScrollView, View } from "react-native";
 import GestureRecognizer from "react-native-swipe-gestures";
+import { Dimensions } from "react-native";
+import AutoHeightImage from "react-native-auto-height-image";
 
 import CardHeader from "./CardHeader";
 import IndividualPhoto from "./IndividualPhoto";
 
 class Pictures extends Component {
-  state = { picId: 0 }; //Create our component level state to decide which picture from the array will be shown
+  constructor(props) {
+    super(props);
+    this.state = { picId: 0 }; //Create our component level state to decide which picture from the array will be shown
+  }
 
   //Handle the left swipe gesture to move on to the next picture
   onSwipeLeft(gestureState) {
@@ -39,13 +44,17 @@ class Pictures extends Component {
       typeStyle,
       summaryStyle,
       arrowContainerStyle,
-      arrowStyle
+      arrowStyle,
+      descriptionStyle,
+      textStyle
     } = styles; //Destructure the style from the styles const below
 
     const config = {
       velocityThreshold: 0.3,
       directionalOffsetThreshold: 80
     }; //Configuration for the swipe handler
+
+    const win = Dimensions.get("window"); //Find the dimension of the screen
 
     return (
       <GestureRecognizer
@@ -67,10 +76,14 @@ class Pictures extends Component {
             <Text style={{ fontSize: 15 }}>Swipe!</Text>
             <Text style={arrowStyle}>&#8594;</Text>
           </View>
-          <IndividualPhoto
-            data={images[this.state.picId]}
-            key={images[this.state.picId].id}
+          <AutoHeightImage
+            width={win.width}
+            source={{ uri: images[this.state.picId].url }}
           />
+          <View style={descriptionStyle}>
+            <Text style={textStyle}>{images[this.state.picId].caption}</Text>
+            {/* A caption for the image */}
+          </View>
           {/* Call the IndividualPhoto Component to show one picture at a time */}
         </ScrollView>
       </GestureRecognizer>
@@ -100,6 +113,7 @@ const styles = {
     marginBottom: 5
   },
 
+  //Styling for the flex box containing the arrows
   arrowContainerStyle: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -107,8 +121,23 @@ const styles = {
     alignItems: "center"
   },
 
+  //Styling for the arrows themselves
   arrowStyle: {
     fontSize: 25
+  },
+
+  //Description for the container that holds each caption
+  descriptionStyle: {
+    backgroundColor: "#CC004C"
+  },
+
+  //Description for the caption itself
+  textStyle: {
+    color: "white",
+    fontSize: 15,
+    padding: 10,
+    paddingBottom: 15,
+    alignItems: "center"
   }
 };
 

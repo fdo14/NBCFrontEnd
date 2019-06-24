@@ -1,13 +1,16 @@
 import React from "react";
 import { Text, View, Image, Button, Linking } from "react-native";
 import { Actions } from "react-native-router-flux";
+import AutoHeightImage from "react-native-auto-height-image";
+import { Dimensions } from "react-native";
 
 import CardHeader from "./CardHeader";
 import colorStyle from "../utils/colorStyle";
 
 const PhotoCard = props => {
-  const { contentStyle, headlineStyle, wrapperStyle, thumbnailStyle } = styles; //Destructure the necessary style
+  const { contentStyle, headlineStyle, wrapperStyle } = styles; //Destructure the necessary style
   let { label, headline, tease, published } = props.data; //Destructure the necessary data from our news object
+  const win = Dimensions.get("window"); //Find the dimension of the screen
 
   return (
     <View style={[wrapperStyle, colorStyle()]}>
@@ -21,12 +24,10 @@ const PhotoCard = props => {
           {/* Create a clickable headline text that brings the user to the slideshow page */}
           {headline}
         </Text>
-        <Image
-          source={{
-            uri: tease
-          }}
-          style={thumbnailStyle}
-          resizeMode={"contain"}
+        <AutoHeightImage
+          width={win.width - 4}
+          source={{ uri: tease }}
+          style={{ borderRadius: 10 }}
         />
         {/* Create the image tease for this component */}
       </View>
@@ -46,13 +47,6 @@ const styles = {
   //Styling for the flexbox holding the image and headline
   contentStyle: {
     flexDirection: "column"
-  },
-
-  //Styling for the picture
-  thumbnailStyle: {
-    height: 250,
-    width: "100%",
-    borderRadius: 10
   },
 
   //Styling for the headline

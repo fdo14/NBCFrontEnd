@@ -1,18 +1,15 @@
 import React from "react";
 import { Text, View, Image, Button, Linking } from "react-native";
+import AutoHeightImage from "react-native-auto-height-image";
+import { Dimensions } from "react-native";
 
 import CardHeader from "./CardHeader";
 import colorStyle from "../utils/colorStyle";
 
 const VideoCard = props => {
-  const {
-    contentStyle,
-    headlineStyle,
-    wrapperStyle,
-    thumbnailStyle,
-    playArrowStyle
-  } = styles; //Destructure the styles from the styles const below
+  const { contentStyle, headlineStyle, wrapperStyle, playArrowStyle } = styles; //Destructure the styles from the styles const below
   let { label, url, headline, tease, published } = props.data; //Destructure the necessary elements from news data
+  const win = Dimensions.get("window"); //Find the dimension of the screen
 
   return (
     <View style={[wrapperStyle, colorStyle()]}>
@@ -20,12 +17,10 @@ const VideoCard = props => {
       {/* Call in the Card Header Component */}
       <View style={contentStyle}>
         <Text style={headlineStyle}>{headline}</Text>
-        <Image
-          source={{
-            uri: tease
-          }}
-          style={thumbnailStyle}
-          resizeMode={"contain"}
+        <AutoHeightImage
+          width={win.width - 4}
+          source={{ uri: tease }}
+          style={{ borderRadius: 10 }}
         />
         {/* Create the teaser image */}
         <Text style={playArrowStyle} onPress={() => Linking.openURL(url)}>
@@ -58,13 +53,6 @@ const styles = {
     flex: 1,
     fontSize: 18,
     fontFamily: "Roboto"
-  },
-
-  //Styling for the teaser pic
-  thumbnailStyle: {
-    height: 250,
-    width: "100%",
-    borderRadius: 10
   },
 
   //Styling for the arrow that is overlayed on top of the image

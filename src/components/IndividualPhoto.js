@@ -1,18 +1,14 @@
 import React from "react";
 import { Text, View, Image } from "react-native";
+import AutoHeightImage from "react-native-auto-height-image";
 
 const IndividualPhoto = props => {
-  const { imageStyle, descriptionStyle, textStyle } = styles; //Destructure the necessary style
+  const { descriptionStyle, textStyle } = styles; //Destructure the necessary style
   let { url, caption } = props.data; //Destructure the necessary data from our news object
 
   return (
     <View>
-      <Image
-        source={{
-          uri: url
-        }}
-        style={imageStyle}
-      />
+      <AutoHeightImage width={props.width} source={{ uri: url }} />
       {/* The image itself */}
       <View style={descriptionStyle}>
         <Text style={textStyle}>{caption}</Text>
@@ -23,12 +19,6 @@ const IndividualPhoto = props => {
 };
 
 const styles = {
-  //Styling for each specific image
-  imageStyle: {
-    height: 200,
-    width: "100%"
-  },
-
   //Description for the container that holds each caption
   descriptionStyle: {
     backgroundColor: "#CC004C"

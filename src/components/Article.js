@@ -1,5 +1,7 @@
 import React from "react";
-import { Text, View, Image, Button, Linking } from "react-native";
+import { Text, View, ScrollView, Linking } from "react-native";
+import AutoHeightImage from "react-native-auto-height-image";
+import { Dimensions } from "react-native";
 
 import CardHeader from "./CardHeader";
 
@@ -8,15 +10,16 @@ const Article = props => {
 
   const {
     headLineStyle,
-    imageStyle,
     typeStyle,
     summaryStyle,
     urlStyle,
     imageContainerStyle
   } = styles; //Destructure our styles from the styles const below
 
+  const win = Dimensions.get("window"); //Find the dimension of the screen
+
   return (
-    <View>
+    <ScrollView>
       <CardHeader label={label} published={published} />
       {/* This is our reusable header Component with label and time published */}
       <Text style={headLineStyle}>{headline}</Text>
@@ -25,12 +28,7 @@ const Article = props => {
       {/* What type of news source am I looking at, article, video, or slideshow */}
       <View style={imageContainerStyle}>
         {/* This will be our image and the link to the actual article */}
-        <Image
-          source={{
-            uri: tease
-          }}
-          style={imageStyle}
-        />
+        <AutoHeightImage width={win.width} source={{ uri: tease }} />
         <View style={urlStyle}>
           {/* This view will be overlayed on top of the image */}
           <Text style={styles.textStyle} onPress={() => Linking.openURL(url)}>
@@ -40,7 +38,7 @@ const Article = props => {
       </View>
       <Text style={summaryStyle}>{summary}</Text>
       {/* A summary of the article */}
-    </View>
+    </ScrollView>
   );
 };
 
@@ -66,21 +64,14 @@ const styles = {
     position: "relative"
   },
 
-  //Styling for the image
-  imageStyle: {
-    width: "100%",
-    height: 200,
-    marginBottom: 5
-  },
-
   //Styling for the container of the url, to overlay it on top of the image
   urlStyle: {
     backgroundColor: "rgba(0,0,0,0.99)",
     width: "100%",
     height: 35,
     opacity: 0.7,
-    positon: "absolute",
-    top: -45,
+    bottom: 10,
+    position: "absolute",
     justifyContent: "center"
   },
 
@@ -93,6 +84,8 @@ const styles = {
 
   //Styling for the summary of the article
   summaryStyle: {
+    marginTop: 10,
+    marginBottom: 10,
     marginLeft: 5,
     fontSize: 15
   }
