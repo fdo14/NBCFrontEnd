@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ScrollView, RefreshControl } from "react-native";
+import { ScrollView, RefreshControl, FlatList, Text } from "react-native";
 import { connect } from "react-redux";
 
 import { fetchNews } from "../../actions";
@@ -29,46 +29,34 @@ class App extends Component {
     this.props.fetchNews(); //When the component mounts, we should run our fetchNews action exactly one time
   }
 
-  //This helper function will loop through our news data gathered by our fetchNews action
-  //It will read each piece of data and then depending on its type, render the appropriate Card component
-  renderNews = () => {
-    let arr = []; //We will push all of our JSX into this empty array and return it at the bottom
-    if (this.props.news) {
-      //If our fetchNews action hasn't resolved yet, we do not want to run this code
-      for (let news of this.props.news.news) {
-        if (news.type === "article") {
-          arr.push(<ArticleCard data={news} key={news.id} />); //If the news is of type Article, let's render the ArticleCard Component
-        }
-
-        if (news.type === "video") {
-          arr.push(<VideoCard data={news} key={news.id} />); //If the news is of type Video, let's render the VideoCard Component
-        }
-
-        if (news.type === "slideshow") {
-          arr.push(<PhotoCard data={news} key={news.id} />); //If the news is of type Slideshow, let's render the PhotoCard Component
-        }
-      }
+  //This helper function is called by the FlatList to conditionally render a card based on the type of news
+  renderNews = newsItem => {
+    let { item } = newsItem;
+    if (item.type === "article") {
+      return <ArticleCard data={item} key={item.id} />; //If the item is of type Article, let's render the ArticleCard Component
     }
-    return arr; //Return the array filled with JSX, so we can render it to the screen
+
+    if (item.type === "video") {
+      return <VideoCard data={item} key={item.id} />; //If the item is of type Video, let's render the VideoCard Component
+    }
+
+    if (item.type === "slideshow") {
+      return <PhotoCard data={item} key={item.id} />; //If the news is of type Slideshow, let's render the PhotoCard Component
+    }
   };
 
   render() {
-    return (
-      <ScrollView
-        refreshControl={
-          //Grab our refreshing state from above so we don't attempt to refresh while already refreshing
-          //Call our refresh function when necessary
-          //Because we will be displaying so many items, we need to scroll.
-          <RefreshControl
-            refreshing={this.state.refreshing}
-            onRefresh={this._onRefresh}
-          />
-        }
-      >
-        {this.renderNews()}
-        {/* This is the helper function from above to render our different cards! */}
-      </ScrollView>
-    );
+    //We only want to run the FlatList if we our news data
+    //The FlatList will receive the news data and then render the Items according to renderNews
+    if (this.props.news) {
+      return (
+        <FlatList
+          data={this.props.news.news}
+          renderItem={this.renderNews}
+          keyExtractor={news => news.id}
+        />
+      );
+    } else return <Text />;
   }
 }
 
